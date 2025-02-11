@@ -1,14 +1,15 @@
 package pro.sky.CoursePaperJavaCore.service;
 
+import org.springframework.stereotype.Service;
+import pro.sky.CoursePaperJavaCore.exception.QuestionNotFoundException;
 import pro.sky.CoursePaperJavaCore.model.Question;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
+@Service
 public class JavaQuestionService implements QuestionService {
 
-    private List<Question> questions = new ArrayList<>();
+    Set<Question> questions = new HashSet<>();
 
     @Override
     public Question add(String question, String answer) {
@@ -21,19 +22,20 @@ public class JavaQuestionService implements QuestionService {
         return newQuestion;
     }
 
-    @Override
-    public Question add(Question question) {
-        return null;
-    }
 
     @Override
     public Question remove(Question question) {
-        return null;
+
+        if (questions.contains(question)) {
+            questions.remove(question);
+            return question;
+        }
+        throw new QuestionNotFoundException("Вопрос не найден!");
     }
 
     @Override
     public Collection<Question> getAll() {
-        return null;
+        return new HashSet<>(questions);
     }
 
     @Override
