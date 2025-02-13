@@ -20,12 +20,12 @@ public class Question {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Question question1)) return false;
-        return Objects.equals(question, question1.question) && Objects.equals(answer, question1.answer);
-    }
+   @Override
+   public boolean equals(Object o) {
+       if (this == o) return true;
+       if (!(o instanceof Question question1)) return false;
+       return Objects.equals(question, question1.question) && Objects.equals(answer, question1.answer);
+   }
 
     @Override
     public int hashCode() {

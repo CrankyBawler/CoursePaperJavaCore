@@ -13,11 +13,10 @@ public class JavaQuestionService implements QuestionService {
 
     @Override
     public Question add(String question, String answer) {
-        if (question == null || question.isEmpty() || answer == null || answer.isEmpty()) {
+        if (question == null || answer == null ) {
             throw new IllegalArgumentException("Вопрос и ответ не могут быть пустыми!");
         }
         Question newQuestion = new Question(question, answer);
-
         questions.add(newQuestion);
         return newQuestion;
     }
@@ -35,6 +34,7 @@ public class JavaQuestionService implements QuestionService {
 
     @Override
     public Collection<Question> getAll() {
+
         return new HashSet<>(questions);
     }
 
