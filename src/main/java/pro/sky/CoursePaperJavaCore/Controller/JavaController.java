@@ -1,9 +1,6 @@
 package pro.sky.CoursePaperJavaCore.Controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pro.sky.CoursePaperJavaCore.model.Question;
 import pro.sky.CoursePaperJavaCore.service.QuestionService;
 
@@ -24,8 +21,14 @@ public class JavaController {
         return questionService.add(question, answer);
     }
 
+    @GetMapping("/remove")
+    public Question remove(Question question) {
+        return questionService.remove(question);
+    }
+
     @GetMapping("/getAll")
     public Collection<Question> getAll() {
+
         return questionService.getAll();
     }
 }

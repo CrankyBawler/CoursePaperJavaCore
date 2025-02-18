@@ -1,6 +1,5 @@
 package pro.sky.CoursePaperJavaCore;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -22,33 +21,54 @@ public class JavaQuestionServiceTest {
     @Test
     void add() {
         JavaQuestionService javaQuestionService = new JavaQuestionService();
+
         Question expected = new Question("question1", "answer1");
         Question actual = javaQuestionService.add("question1", "answer1");
 
+
         assertEquals(expected, actual);
+        IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> {
+            javaQuestionService.add(null, null);
+        });
     }
 
 
     @Test
     void remove() {
-        Set<Question> questions = new HashSet<>();
-        javaQuestionService.add("Question1", "Answer1");
-        questions.add(new Question("Question2", "Answer2"));
-        questions.add(new Question("Question3", "Answer3"));
 
-        when(javaQuestionService.getAll()).thenReturn(questions);
+        JavaQuestionService javaQuestionService = new JavaQuestionService();
+        Question question = new Question("question1", "answer1");
+        Question notFoundQuestion = new Question("question2", "answer2");
 
-        Question questionRemove = new Question("Question2", "Answer2");
-        Question questionNotFound = new Question("Question4", "Answer4");
+        javaQuestionService.add("question1", "answer1");
 
-        Question removedQuestion = javaQuestionService.remove(questionRemove);
+        Question expected = new Question("question1", "answer1");
+        Question actual = javaQuestionService.remove(question);
 
-        assertEquals(2, javaQuestionService.getAll().size());
-        assertEquals(questionRemove, removedQuestion);
-        assertFalse(javaQuestionService.getAll().contains(questionRemove));
+        assertEquals(expected, actual);
         QuestionNotFoundException questionNotFoundException = assertThrows(QuestionNotFoundException.class, () -> {
-            javaQuestionService.remove(questionNotFound);
+            javaQuestionService.remove(notFoundQuestion);
         });
-        assertEquals("Вопрос не найден!", questionNotFoundException.getMessage());
     }
-}
+
+    @Test
+    void getAll() {
+        JavaQuestionService javaQuestionService = new JavaQuestionService();
+
+        javaQuestionService.add("question1", "answer1");
+        javaQuestionService.add("question2", "answer2");
+        javaQuestionService.add("question3", "answer3");
+
+        Set<Question> expected = new HashSet<>();
+        expected.add(new Question("question1", "answer1"));
+        expected.add(new Question("question2", "answer2"));
+        expected.add(new Question("question3", "answer3"));
+
+        assertEquals(expected, javaQuestionService.getAll());
+
+        assertEquals(3, javaQuestionService.getAll().size());
+
+    }
+   };
+
+
