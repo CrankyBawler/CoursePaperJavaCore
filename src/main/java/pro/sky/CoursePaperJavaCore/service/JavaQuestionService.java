@@ -21,6 +21,15 @@ public class JavaQuestionService implements QuestionService {
         return newQuestion;
     }
 
+    @Override
+    public Question find(Question question) {
+        if (questions.contains(question)) {
+            return question;
+        }
+        throw new QuestionNotFoundException("Вопрос не найден!");
+
+    }
+
 
     @Override
     public Question remove(Question question) {
@@ -43,7 +52,13 @@ public class JavaQuestionService implements QuestionService {
 
     @Override
     public Question getRandomQuestion() {
+        if (questions == null || questions.isEmpty()) {
+            throw new IllegalStateException("Список вопросов не инициализирован!");
+        }
+        Question [] questionsArray = questions.toArray(new Question[0]);
+        int randomIndex = new Random().nextInt(questionsArray.length);
 
-        return null;
+        return questionsArray[randomIndex];
     }
+
 }

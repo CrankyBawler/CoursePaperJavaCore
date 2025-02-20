@@ -21,14 +21,24 @@ public class JavaController {
         return questionService.add(question, answer);
     }
 
+//    @GetMapping("/find")
+//    public Question find(Question question) {
+//        return questionService.find(question);
+//    }
+
     @GetMapping("/remove")
     public Question remove(Question question) {
         return questionService.remove(question);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     public Collection<Question> getAll() {
 
         return questionService.getAll();
     }
+
+//    @GetMapping("/random")
+//    public Question getRandomQuestion () {
+//        return questionService.getRandomQuestion();
+//    }
 }

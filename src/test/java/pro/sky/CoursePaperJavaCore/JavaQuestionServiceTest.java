@@ -1,5 +1,6 @@
 package pro.sky.CoursePaperJavaCore;
 
+import com.sun.nio.sctp.IllegalUnbindException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -32,6 +33,28 @@ public class JavaQuestionServiceTest {
         });
     }
 
+    @Test
+    void find() {
+        JavaQuestionService javaQuestionService = new JavaQuestionService();
+
+        javaQuestionService.add("question1", "answer1");
+        javaQuestionService.add("question2", "answer2");
+        javaQuestionService.add("question3", "answer3");
+
+        Question expected = new Question("question1", "answer1");
+        Question notFoundQuestion = new Question("question4", "answer4");
+        Question actual = new Question("question1", "answer1");
+
+
+        Question atcual = javaQuestionService.find(actual);
+
+        assertEquals(expected, atcual);
+        QuestionNotFoundException questionNotFoundException = assertThrows(QuestionNotFoundException.class, () -> {
+            javaQuestionService.find(notFoundQuestion);
+        });
+
+    }
+
 
     @Test
     void remove() {
@@ -53,6 +76,7 @@ public class JavaQuestionServiceTest {
 
     @Test
     void getAll() {
+
         JavaQuestionService javaQuestionService = new JavaQuestionService();
 
         javaQuestionService.add("question1", "answer1");
@@ -69,6 +93,33 @@ public class JavaQuestionServiceTest {
         assertEquals(3, javaQuestionService.getAll().size());
 
     }
-   };
+
+    @Test
+    void getRandomQuestion() {
+
+        JavaQuestionService javaQuestionService = new JavaQuestionService();
+
+        javaQuestionService.add("question1", "answer1");
+        javaQuestionService.add("question2", "answer2");
+        javaQuestionService.add("question3", "answer3");
+
+
+        Question randomQuestion = javaQuestionService.getRandomQuestion();
+
+        assertNotNull(randomQuestion);
+        assertTrue(javaQuestionService.getAll().contains(randomQuestion));
+
+    }
+
+    @Test
+    void getRandomQuestionNull() {
+        JavaQuestionService javaQuestionService = new JavaQuestionService();
+
+
+        IllegalStateException illegalStateException = assertThrows(IllegalStateException.class, () ->{
+            javaQuestionService.getRandomQuestion();
+        });
+    }
+};
 
 
