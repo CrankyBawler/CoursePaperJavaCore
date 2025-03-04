@@ -3,6 +3,7 @@ package pro.sky.CoursePaperJavaCore.service;
 import pro.sky.CoursePaperJavaCore.model.Question;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 public class ExaminerServiceImpl implements ExaminerService{
     private final QuestionService questionService;
@@ -15,11 +16,22 @@ public class ExaminerServiceImpl implements ExaminerService{
 
     @Override
     public Collection<Question> getQuestions(int amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Количество вопросов должно быть больше 0!");
+        Collection<Question> questions = new HashSet<>();
+        if (amount > questionService.getAll().size()) {
+            throw new IllegalArgumentException("Количество amount должно быть меньше количества вопросов!");
+        }
+        int i = 0;
+        while (i < amount) {
+            Question question = questionService.getRandomQuestion();
+            if (!questions.contains(question)) {
+                questions.add(question);
+                i += 1;
+
+            }
         }
 
 
-        return null;
+        return questions;
     }
+
 }
